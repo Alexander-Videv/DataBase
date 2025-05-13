@@ -1,5 +1,4 @@
-#ifndef FLOAT_COL_HPP
-#define FLOAT_COL_HPP
+
 
 #include "Column.hpp"
 
@@ -11,5 +10,3 @@ public:
     FloatCol(/* args */);
     ~FloatCol();
 };
-
-#endif // FLOAT_COL_HPP

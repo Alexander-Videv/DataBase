@@ -1,9 +1,8 @@
-#ifndef DATE_COL_HPP
-#define DATE_COL_HPP
 
 #include "Column.hpp"
+#include "Date.hpp"
 
-class DateCol : public Column
+class DateCol
 {
 private:
     /* data */
@@ -11,5 +10,3 @@ public:
     DateCol(/* args */);
     ~DateCol();
 };
-
-#endif // DATE_COL_HPP
