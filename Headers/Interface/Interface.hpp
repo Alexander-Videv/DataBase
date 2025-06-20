@@ -20,7 +20,7 @@ private:
     ~Interface() { exit(); };
 
 private:
-    void create(const std::string &name);
+    void create(const std::string &name, const std::string &fileName);
 
     void addTable(const std::string &tableName);
     void removeTable(const std::string &tableName);

@@ -48,6 +48,8 @@ bool DateCol::search(const std::string &value, int index) const
 
 bool DateCol::setValue(const std::string &value, int index)
 {
+    std::cout << "DEBUG : HERE - VALUE : " << value << "\n";
+
     if (index < 0 || index > column.size())
         return false;
 
@@ -60,12 +62,24 @@ bool DateCol::setValue(const std::string &value, int index)
     else
         val = value;
 
-    int day;
-    int month;
-    int year;
+    int day = 0;
+    int month = 0;
+    int year = 0;
 
     day = stringToNumber(val.substr(0, val.find('\\')));
-    val.erase(0, val.find('\\'));
+    val.erase(0, val.find('\\') + 1);
+    month = stringToNumber(val.substr(0, val.find('\\')));
+    val.erase(0, val.find('\\') + 1);
+    year = stringToNumber(val);
+
+    year -= 1900;
+
+    if (day < 0 || day > 31)
+        setNull(index, true);
+    if (month < 0 || month > 12)
+        setNull(index, true);
+    if (year < 0)
+        setNull(index, true);
 
     Date res(day, month, year);
 

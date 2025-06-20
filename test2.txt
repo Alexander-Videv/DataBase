@@ -1,7 +1,0 @@
-malemila
-3 4
-String	Date	Float	Int	
-Name	DOB	BAC	age	
-"AlexanderVidev"	22\4\2001	1.2	24	
-"HristinaZehireva"	9\5\2003	3.3	22	
-"Tate"	12\12\2022	8.8	55	

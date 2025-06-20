@@ -34,12 +34,20 @@ void Interface::Run(std::istream &is)
     exit();
 }
 
-void Interface::create(const std::string &name)
+void Interface::create(const std::string &name, const std::string &fileName)
 {
     if (db)
         closeDB();
 
-    this->db = new DataBase(name);
+    try
+    {
+        this->db = new DataBase(name);
+        this->currFileName = fileName;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 }
 
 void Interface::addTable(const std::string &tableName)
@@ -172,6 +180,12 @@ bool Interface::closeDB()
     std::cin >> input;
     input = toLowerStr(input);
 
+    while (input != "y" || input != "n")
+    {
+        std::cin >> input;
+        input = toLowerStr(input);
+    }
+
     if (input == "y")
     {
         if (!save())
@@ -180,11 +194,9 @@ bool Interface::closeDB()
             return false;
         }
     }
-    else
-    {
-        std::cin.ignore(input.size());
-    }
 
+    std::cin.ignore(input.size());
+    std::cout << "Changes saved, closing.\n";
     delete db;
     db = nullptr;
 
@@ -248,139 +260,151 @@ bool Interface::checkDB() const
 
 void Interface::parseCommand(std::string &line)
 {
-    std::string command;
-    command = getNextToken(line);
+    try
+    {
+        std::string command;
+        command = getNextToken(line);
 
-    if (command == "open")
-    {
-        std::string fileName = line;
-        open(fileName);
-    }
-    else if (command == "create")
-    {
-        std::string name = line;
-        create(name);
-    }
-    else if (command == "help")
-    {
-        std::string additional = line;
-        help(additional);
-    }
-    else if (command == "save")
-    {
-        save();
-    }
-    else if (command == "saveas")
-    {
-        std::string fileName = line;
-        saveas(fileName);
-    }
-    else if (command == "close")
-    {
-        closeDB();
-    }
-    else if (command == "showtables")
-    {
-        showtables();
-    }
-    else if (command == "addtable")
-    {
-        std::string tableName = line;
-        addTable(tableName);
-    }
-    else if (command == "removetable")
-    {
-        std::string tableName = line;
-        removeTable(tableName);
-    }
-    else if (command == "describe")
-    {
-        std::string tableName = line;
-        describe(tableName);
-    }
-    else if (command == "print")
-    {
-        std::string tableName = getNextToken(line);
-        int RPN = getIndex(line) + 1;
-
-        if (RPN < 0)
+        if (command == "open")
         {
-            std::cout << "Cant print negative pages!\n";
+            std::string fileName = line;
+            open(fileName);
+        }
+        else if (command == "create")
+        {
+            std::string name = getNextToken(line);
+            std::string fileName = line;
+
+            if (fileName.empty())
+                fileName = name;
+
+            create(name, fileName);
+        }
+        else if (command == "help")
+        {
+            std::string additional = line;
+            help(additional);
+        }
+        else if (command == "save")
+        {
+            save();
+        }
+        else if (command == "saveas")
+        {
+            std::string fileName = line;
+            saveas(fileName);
+        }
+        else if (command == "close")
+        {
+            closeDB();
+        }
+        else if (command == "showtables")
+        {
+            showtables();
+        }
+        else if (command == "addtable")
+        {
+            std::string tableName = line;
+            addTable(tableName);
+        }
+        else if (command == "removetable")
+        {
+            std::string tableName = line;
+            removeTable(tableName);
+        }
+        else if (command == "describe")
+        {
+            std::string tableName = line;
+            describe(tableName);
+        }
+        else if (command == "print")
+        {
+            std::string tableName = getNextToken(line);
+            int RPN = getIndex(line) + 1;
+
+            if (RPN < 0)
+            {
+                std::cout << "Cant print negative pages!\n";
+                return;
+            }
+
+            print(tableName, RPN);
+        }
+        else if (command == "export")
+        {
+            std::string tableName = getNextToken(line);
+            std::string fileName = getNextToken(line);
+
+            exportDB(tableName, fileName);
+        }
+        else if (command == "select")
+        {
+            int colIndex = getIndex(line);
+
+            std::string value = getValue(line);
+
+            std::string tableName = getNextToken(line);
+
+            select(colIndex, value, tableName);
+        }
+        else if (command == "modify")
+        {
+            std::string tableName = getNextToken(line);
+            int columnIndex = getIndex(line);
+            std::string newType = getNextToken(line);
+
+            modify(tableName, columnIndex, newType);
+        }
+        else if (command == "addcolumn")
+        {
+            std::string tableName = getNextToken(line);
+            std::string columnName = getNextToken(line);
+            std::string columnType = getNextToken(line);
+
+            addColumn(tableName, columnName, columnType);
+        }
+        else if (command == "update")
+        {
+            std::string tableName = getNextToken(line);
+
+            int searchIndex = getIndex(line);
+
+            std::string searchValue = getValue(line);
+
+            int targetIndex = getIndex(line);
+
+            std::string targetValue = getValue(line);
+
+            update(tableName, searchIndex, searchValue, targetIndex, targetValue);
+        }
+        else if (command == "delete")
+        {
+            std::string tableName = getNextToken(line);
+
+            int columnIndex = getIndex(line);
+
+            std::string value = getValue(line);
+
+            deleteRows(tableName, columnIndex, value);
+        }
+        else if (command == "insert")
+        {
+            std::string tableName = getNextToken(line);
+            std::string values = line;
+            insert(tableName, values);
+        }
+        else if (command == "exit")
+        {
+            running = false;
             return;
         }
-
-        print(tableName, RPN);
+        else
+        {
+            std::cout << "Invalid command.\n";
+        }
     }
-    else if (command == "export")
+    catch (const std::exception &e)
     {
-        std::string tableName = getNextToken(line);
-        std::string fileName = getNextToken(line);
-
-        exportDB(tableName, fileName);
-    }
-    else if (command == "select")
-    {
-        int colIndex = getIndex(line);
-
-        std::string value = getValue(line);
-
-        std::string tableName = getNextToken(line);
-
-        select(colIndex, value, tableName);
-    }
-    else if (command == "modify")
-    {
-        std::string tableName = getNextToken(line);
-        int columnIndex = getIndex(line);
-        std::string newType = getNextToken(line);
-
-        modify(tableName, columnIndex, newType);
-    }
-    else if (command == "addcolumn")
-    {
-        std::string tableName = getNextToken(line);
-        std::string columnName = getNextToken(line);
-        std::string columnType = getNextToken(line);
-
-        addColumn(tableName, columnName, columnType);
-    }
-    else if (command == "update")
-    {
-        std::string tableName = getNextToken(line);
-
-        int searchIndex = getIndex(line);
-
-        std::string searchValue = getValue(line);
-
-        int targetIndex = getIndex(line);
-
-        std::string targetValue = getValue(line);
-
-        update(tableName, searchIndex, searchValue, targetIndex, targetValue);
-    }
-    else if (command == "delete")
-    {
-        std::string tableName = getNextToken(line);
-
-        int columnIndex = getIndex(line);
-
-        std::string value = getValue(line);
-
-        deleteRows(tableName, columnIndex, value);
-    }
-    else if (command == "insert")
-    {
-        std::string tableName = getNextToken(line);
-        std::string values = line;
-        insert(tableName, values);
-    }
-    else if (command == "exit")
-    {
-        running = false;
-        return;
-    }
-    else
-    {
-        std::cout << "Invalid command.\n";
+        std::cerr << e.what() << '\n';
     }
 }

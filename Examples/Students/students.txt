@@ -1,0 +1,16 @@
+Students
+2
+StudentInfo
+3 4
+String	String	Float	Int	
+Name	FN	GPA	CourseID	
+"Alexander Videv"	"9MI0400158"	3.9	2	
+"Gosho"	"2345"	2	3	
+"50 Cent"	"50"	5	5	
+Courses
+3 2
+Int	String	
+ID	Name	
+2	"Inf"	
+3	"KN"	
+5	"InfSys"	

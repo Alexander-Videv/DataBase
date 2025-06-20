@@ -352,7 +352,7 @@ std::istream &operator>>(std::istream &is, Table &table)
         temp.addEntry();
         for (size_t j = 0; j < temp.table.size(); j++)
         {
-            cellValue = getValueTable(line);
+            cellValue = getNextTokenTable(line);
             if (cellValue == "NULL")
                 continue;
 

@@ -1,0 +1,7 @@
+Courses
+3 2
+Int	String	
+ID	Name	
+2	"Inf"	
+3	"KN"	
+5	"InfSys"	

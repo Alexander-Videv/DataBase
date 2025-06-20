@@ -1,0 +1,9 @@
+Prison
+1
+Prisoners
+3 6
+String	String	Date	Date	Int	String	
+Name	EGN	EntryDate	ReleaseDate	OriginalSentence	Reason	
+"Alexander Videv"	"3344"	12\3\2005	12\3\2045	40	"Murder"	
+"Gosho"	"888888888"	5\8\2015	5\8\2016	2	"DUI"	
+"Ismail"	"333444422"	7\7\2018	20\6\2025	7	"Proekt po OOP"	

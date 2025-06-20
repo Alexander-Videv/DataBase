@@ -3,9 +3,9 @@
 
 struct Date
 {
-    uint16_t day : 5;
-    uint16_t month : 4;
-    uint16_t year : 7;
+    unsigned int day : 5;
+    unsigned int month : 4;
+    unsigned int year : 23;
 
     bool operator==(const Date &other) const;
     bool operator!=(const Date &other) const;
@@ -14,7 +14,7 @@ struct Date
     friend std::istream &operator>>(std::istream &is, Date &date);
 
     Date() : day(1), month(1), year(0) {};
-    Date(int d, int m, int y) : day(day), month(m), year(y) {};
+    Date(int d, int m, int y) : day(d), month(m), year(y) {};
 };
 
 std::ostream &operator<<(std::ostream &os, const Date &date)
