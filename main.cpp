@@ -3,8 +3,7 @@
 
 int main()
 {
-    Interface *console = Interface::get();
-    console->Run();
+    Interface::get()->Run();
 
     Interface::release();
 
