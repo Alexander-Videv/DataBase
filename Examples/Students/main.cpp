@@ -1,5 +1,5 @@
-#include "Headers/Interface/Interface.cpp"
-#include "Headers/DataBase/DataBase.cpp"
+#include "../Headers/Interface/Interface.cpp"
+#include "../Headers/DataBase/DataBase.cpp"
 
 int main()
 {

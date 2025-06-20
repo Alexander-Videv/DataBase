@@ -1,0 +1,5 @@
+tatemila
+2 2
+String	Int	
+NULL	NULL	
+Sasho	12	

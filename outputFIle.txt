@@ -1,0 +1,14 @@
+myDb
+2
+malemila
+2 4
+String  Date	Float	Int	
+Name    DOB     BAC     age
+"AlexanderVidev"  22\04\2001	1.2 24	
+"HristinaZehireva"    09\05\2003  3.3 22	
+tatemila
+2 2
+String	Int	
+Name    age
+NULL	NULL	
+Sasho	12	

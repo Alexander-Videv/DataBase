@@ -1,0 +1,7 @@
+malemila
+3 4
+String	Date	Float	Int	
+Name	DOfB	BACL	Age	
+"Alexander Videv"	22\4\2001	1.2	24	
+"Hristina Zehireva"	9\5\2003	3.3	22	
+"OMG \"quotes\" wow"	12\12\2022	8.8	55	
