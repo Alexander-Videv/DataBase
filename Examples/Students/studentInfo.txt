@@ -2,6 +2,6 @@ StudentInfo
 3 4
 String	String	Float	Int	
 Name	FN	GPA	CourseID	
-"Alexander Videv"	"9MI0400158"	3.9	2	
+"Alexander Videv"	"4545456"	3.9	2	
 "Gosho"	"2345"	2	3	
 "50 Cent"	"50"	5	5	
